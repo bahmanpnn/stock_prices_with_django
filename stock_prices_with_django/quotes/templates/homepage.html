@@ -2,6 +2,17 @@
 {% block title %}
     <title>homepage</title>
 {% endblock %}
+
 {% block content %}
-    <h1>hello</h1>
+    <h1 class="text-center">stock prices</h1>
+    <hr>
+    <div>
+        {% if data %}
+            {% for key,value in data.items %}
+                {{ key }}:{{ value }}<br>
+            {% endfor %}
+            {% else %}
+            <h1 class="text-center">there is a problem. please try again</h1>
+        {% endif %}
+    </div>
 {% endblock %}

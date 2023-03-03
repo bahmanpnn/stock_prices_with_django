@@ -1,0 +1,30 @@
+{% extends 'shared/base.html' %}
+{% block title %}
+    <title>homepage</title>
+{% endblock %}
+
+{% block content %}
+    <h1>hello</h1>
+    <hr>
+    <div>
+        <p>bnb price: {{ api }}</p>
+        <hr>
+        <p>eth price:{{ data.PRICE }}</p>
+        <p>eth high day price:{{ data.HIGHDAY }}</p>
+        <p>eth low day price:{{ data.LOWDAY }}</p>
+        <hr>
+        {% for key,value in data.items %}
+            {{ key }}:{{ value }}<br>
+        {% endfor %}
+        <hr>
+        {% for item in data.items %}
+            {{ item }}<br>
+        {% endfor %}
+        <hr>
+        {{ data }}
+        <hr>
+        <h1>last one</h1>
+        {{ currency_data }}
+
+    </div>
+{% endblock %}
