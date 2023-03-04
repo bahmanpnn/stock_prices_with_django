@@ -112,20 +112,26 @@ def test(request):
         return render(request, 'test_home_page.html', {'api': response})
 
 
+# print(data["RAW"]["ETH"]["USD"]["PRICE"])
+# print(data["RAW"]["ETH"]["USD"]['HIGHDAY'])
+# print(data["RAW"]["ETH"]["USD"]['LOWDAY'])
 # main view
 def homepage(request):
-    try:
-        data = cryptocompare.get_price('eth', currency='usd', full=True)
-        # print(data["RAW"]["ETH"]["USD"]["PRICE"])
-        # print(data["RAW"]["ETH"]["USD"]['HIGHDAY'])
-        # print(data["RAW"]["ETH"]["USD"]['LOWDAY'])
+    if request.method == 'POST':
+        try:
+            stock_input = request.POST['stock-input']
+            stock_input=stock_input.upper()
+            data = cryptocompare.get_price(stock_input, currency='usd', full=True)
 
-        return render(request, 'homepage.html', {
-            'data': data["RAW"]["ETH"]["USD"],
-        })
-    except Exception as e:
-        response = 'error!!'
-        return render(request, 'homepage.html', {'data': response})
+            return render(request, 'homepage.html', {
+                'data': data["RAW"][stock_input]["USD"],
+            })
+
+        except Exception as e:
+            response = 'error!!'
+            return render(request, 'homepage.html', {'error': response})
+    else:
+        return render(request, 'homepage.html')
 
 
 def about(request):

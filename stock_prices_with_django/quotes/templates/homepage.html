@@ -7,12 +7,20 @@
     <h1 class="text-center">stock prices</h1>
     <hr>
     <div>
-        {% if data %}
-            {% for key,value in data.items %}
-                {{ key }}:{{ value }}<br>
-            {% endfor %}
-            {% else %}
+        {% if error %}
             <h1 class="text-center">there is a problem. please try again</h1>
+            <h2 class="text-center">remember that you must enter symbol(btc) not complete name</h2>
+        {% endif %}
+        {% if data %}
+            {#            <img src="{{ data.IMAGEURL.url }}" alt="{{ data.IMAGEURL }}">#}
+            <h1>currency name: {{ data.FROMSYMBOL }}</h1><br>
+            <p>price:{{ data.PRICE }}</p>
+            <p>high day price:{{ data.HIGHDAY }}</p>
+            <p>low day price:{{ data.LOWDAY }}</p>
+            <p>open day price:{{ data.OPENDAY }}</p>
+            <p>market cap:{{ data.MKTCAP }}</p>
+            <p>supply:{{ data.SUPPLY }}</p>
+            <hr>
         {% endif %}
     </div>
 {% endblock %}
