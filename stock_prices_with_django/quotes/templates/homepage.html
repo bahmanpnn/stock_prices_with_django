@@ -21,6 +21,23 @@
             <p>market cap:{{ data.MKTCAP }}</p>
             <p>supply:{{ data.SUPPLY }}</p>
             <hr>
+        {% else %}
+            <br>
+            <br>
+            <div class="card text-center">
+                <div class="card-header">
+                    warning
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        if you looking a currnecy details use (get quote stock) search
+                        box for search your favorite currency
+                    </h4>
+                    <h5 class="card-text">if you want your portfolio details click: go to
+                        stcok page</h5>
+                    <a href="{% url 'stock_page' %}" class="btn btn-primary">Go stock page</a>
+                </div>
+            </div>
         {% endif %}
     </div>
 {% endblock %}

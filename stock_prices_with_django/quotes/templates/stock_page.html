@@ -33,6 +33,7 @@
                 <tbody>
                 {% for stock_item in stock_items %}
                     <tr>
+                        {#                    todo:next time add 3digits to prices#}
                         <th class="text-center" scope="row">{{ forloop.counter }}</th>
                         <td class="text-center">{{ stock_item.FROMSYMBOL }}</td>
                         <td class="text-center">$ {{ stock_item.PRICE }}</td>
@@ -57,20 +58,4 @@
         {% endif %}
     </div>
     <hr>
-    <ul class="navbar-nav">
-        {% for stock in stocks %}
-            <li class="mb-1">
-                {{ stock }}
-            </li>
-        {% endfor %}
-    </ul>
 {% endblock %}
-
-{#    {% if messages %}#}
-{#        {% for message in messages %}#}
-{#            <div class="alert alert-dark text-center mt-2 mb-1 " role="alert">#}
-{#                {{ message }}#}
-{#                <button class="close" data-dismiss="alert"><small><sup>x</sup></small></button>#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#    {% endif %}#}
