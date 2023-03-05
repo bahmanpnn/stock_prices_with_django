@@ -161,16 +161,31 @@ def stocks(request):
         #     return redirect(reverse('stock_page'))
 
     stock = Stock.objects.all()
+    stock_items = []
+    for item in stock:
+        try:
+            stock_input = str(item).upper()
+            data = cryptocompare.get_price(stock_input, currency='usd', full=True)
+            data = data["RAW"][stock_input]["USD"]
+            stock_items.append(data)
+        except Exception as e:
+            data = 'error!!'
     form = StockForm()
     context = {
         'stocks': stock,
-        'form': form
+        'form': form,
+        'stock_items': stock_items
     }
     return render(request, 'stock_page.html', context)
 
 
-def delete_stock(request, stock_id):
-    stock = Stock.objects.get(pk=stock_id)
-    stock.delete()
+def delete_stock(request, stock_symbol):
+    # stock = Stock.objects.get(name=stock_symbol.lower())
+    stock = Stock.objects.filter(name=stock_symbol.lower()).first()
+    if stock is None:
+        upper_stock = Stock.objects.filter(name=stock_symbol.upper()).first()
+        upper_stock.delete()
+    else:
+        stock.delete()
     messages.success(request, 'the stock deleted successfully')
     return redirect(reverse('stock_page'))

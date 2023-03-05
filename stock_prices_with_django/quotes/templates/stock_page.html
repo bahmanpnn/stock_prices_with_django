@@ -3,15 +3,6 @@
     <title>about page</title>
 {% endblock %}
 {% block content %}
-    {#    {% if messages %}#}
-    {#        {% for message in messages %}#}
-    {#            <div class="alert alert-dark text-center mt-2 mb-1 " role="alert">#}
-    {#                {{ message }}#}
-    {#                <button class="close" data-dismiss="alert"><small><sup>x</sup></small></button>#}
-    {#            </div>#}
-    {##}
-    {#        {% endfor %}#}
-    {#    {% endif %}#}
     <div class="text-center">
         <h1>this is stock page</h1>
         <form class="d-flex" role="search" action="{% url 'stock_page' %}" method="post"
@@ -24,48 +15,62 @@
         </form>
     </div>
     <div class="mb-5">
-        <table class="table table-striped table-hover table-bordered mt-5">
-            <thead class="table-dark">
-            <tr>
-                <th class="text-center" scope="col">Number</th>
-                <th class="text-center" scope="col">Currency symbol</th>
-                <th class="text-center" scope="col">Price</th>
-                <th class="text-center" scope="col">High Day</th>
-                <th class="text-center" scope="col">Low Day</th>
-                <th class="text-center" scope="col">Open Day</th>
-                <th class="text-center" scope="col">Market Cap</th>
-                <th class="text-center" scope="col">Supply</th>
-                <th class="text-center" scope="col">Delete currency</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for stock in stocks %}
+        {% if stocks %}
+            <table class="table table-striped table-hover table-bordered mt-5">
+                <thead class="table-dark">
                 <tr>
-                    <th class="text-center" scope="row">{{ forloop.counter }}</th>
-                    <td class="text-center">{{ stock.name }}</td>
-                    <td class="text-center">Otto</td>
-                    <td class="text-center">@mdo</td>
-                    <td class="text-center">@mdo</td>
-                    <td class="text-center">@mdo</td>
-                    <td class="text-center">@mdo</td>
-                    <td class="text-center">@mdo</td>
-                    <td class="text-center">
-                        <a href="{% url 'delete_stock' stock_id=stock.id %}">
-                            <span aria-hidden="true">Delete</span>
-                        </a></td>
+                    <th class="text-center" scope="col">Number</th>
+                    <th class="text-center" scope="col">Currency symbol</th>
+                    <th class="text-center" scope="col">Price</th>
+                    <th class="text-center" scope="col">High Day</th>
+                    <th class="text-center" scope="col">Low Day</th>
+                    <th class="text-center" scope="col">Open Day</th>
+                    <th class="text-center" scope="col">Market Cap</th>
+                    <th class="text-center" scope="col">Supply</th>
+                    <th class="text-center" scope="col">Delete currency</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        {#        <ul class="navbar-nav">#}
-        {#            {% for stock in stocks %}#}
-        {#                <li class="mb-1">#}
-        {#                    {{ stock|upper }}#}
-        {#                    <a href="{% url 'delete_stock' stock_id=stock.id %}">#}
-        {#                        <span aria-hidden="true">&times;</span>#}
-        {#                    </a>#}
-        {#                </li>#}
-        {#            {% endfor %}#}
-        {#        </ul>#}
+                </thead>
+                <tbody>
+                {% for stock_item in stock_items %}
+                    <tr>
+                        <th class="text-center" scope="row">{{ forloop.counter }}</th>
+                        <td class="text-center">{{ stock_item.FROMSYMBOL }}</td>
+                        <td class="text-center">$ {{ stock_item.PRICE }}</td>
+                        <td class="text-center">$ {{ stock_item.HIGHDAY }}</td>
+                        <td class="text-center">$ {{ stock_item.LOWDAY }}</td>
+                        <td class="text-center">$ {{ stock_item.OPENDAY }}</td>
+                        <td class="text-center">$ {{ stock_item.MKTCAP }}</td>
+                        <td class="text-center">{{ stock_item.SUPPLY }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'delete_stock' stock_symbol=stock_item.FROMSYMBOL %}"
+                               class="btn
+                            btn-secondary">
+                                <span aria-hidden="true">Delete</span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h2 class="text-center">there is no currency in database!! add one with search box</h2>
+        {% endif %}
     </div>
+    <hr>
+    <ul class="navbar-nav">
+        {% for stock in stocks %}
+            <li class="mb-1">
+                {{ stock }}
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
+
+{#    {% if messages %}#}
+{#        {% for message in messages %}#}
+{#            <div class="alert alert-dark text-center mt-2 mb-1 " role="alert">#}
+{#                {{ message }}#}
+{#                <button class="close" data-dismiss="alert"><small><sup>x</sup></small></button>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
