@@ -1,5 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests, json, cryptocompare
+from django.urls import reverse
+
+from .forms import StockForm
+from .models import Stock
+from django.contrib import messages
 
 
 # 1
@@ -83,6 +88,7 @@ import requests, json, cryptocompare
 # {{api.quotePrice}}
 
 # 4
+
 def test(request):
     try:
         data = cryptocompare.get_price('eth', currency='usd', full=True)
@@ -120,7 +126,7 @@ def homepage(request):
     if request.method == 'POST':
         try:
             stock_input = request.POST['stock-input']
-            stock_input=stock_input.upper()
+            stock_input = stock_input.upper()
             data = cryptocompare.get_price(stock_input, currency='usd', full=True)
 
             return render(request, 'homepage.html', {
@@ -136,3 +142,35 @@ def homepage(request):
 
 def about(request):
     return render(request, 'about.html', {})
+
+
+def stocks(request):
+    if request.method == 'POST':
+        form = StockForm(request.POST or None)
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            is_there: bool = Stock.objects.filter(name=name).exists()
+            if not is_there:
+                form.save()
+                messages.success(request, 'stock has been added')
+                return redirect(reverse('stock_page'))
+            else:
+                messages.error(request, 'it was added before!! try another currency')
+                return redirect(reverse('stock_page'))
+        # else:
+        #     return redirect(reverse('stock_page'))
+
+    stock = Stock.objects.all()
+    form = StockForm()
+    context = {
+        'stocks': stock,
+        'form': form
+    }
+    return render(request, 'stock_page.html', context)
+
+
+def delete_stock(request, stock_id):
+    stock = Stock.objects.get(pk=stock_id)
+    stock.delete()
+    messages.success(request, 'the stock deleted successfully')
+    return redirect(reverse('stock_page'))

@@ -1,0 +1,71 @@
+{% extends 'shared/base.html' %}
+{% block title %}
+    <title>about page</title>
+{% endblock %}
+{% block content %}
+    {#    {% if messages %}#}
+    {#        {% for message in messages %}#}
+    {#            <div class="alert alert-dark text-center mt-2 mb-1 " role="alert">#}
+    {#                {{ message }}#}
+    {#                <button class="close" data-dismiss="alert"><small><sup>x</sup></small></button>#}
+    {#            </div>#}
+    {##}
+    {#        {% endfor %}#}
+    {#    {% endif %}#}
+    <div class="text-center">
+        <h1>this is stock page</h1>
+        <form class="d-flex" role="search" action="{% url 'stock_page' %}" method="post"
+              autocomplete="off">
+            {% csrf_token %}
+            {#            {{ form }}#}
+            <input class="form-control me-2 text-center" type="search" placeholder="add stock"
+                   aria-label="Search" name="name">
+            <button class="btn btn-outline-secondary" type="submit">add</button>
+        </form>
+    </div>
+    <div class="mb-5">
+        <table class="table table-striped table-hover table-bordered mt-5">
+            <thead class="table-dark">
+            <tr>
+                <th class="text-center" scope="col">Number</th>
+                <th class="text-center" scope="col">Currency symbol</th>
+                <th class="text-center" scope="col">Price</th>
+                <th class="text-center" scope="col">High Day</th>
+                <th class="text-center" scope="col">Low Day</th>
+                <th class="text-center" scope="col">Open Day</th>
+                <th class="text-center" scope="col">Market Cap</th>
+                <th class="text-center" scope="col">Supply</th>
+                <th class="text-center" scope="col">Delete currency</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <th class="text-center" scope="row">{{ forloop.counter }}</th>
+                    <td class="text-center">{{ stock.name }}</td>
+                    <td class="text-center">Otto</td>
+                    <td class="text-center">@mdo</td>
+                    <td class="text-center">@mdo</td>
+                    <td class="text-center">@mdo</td>
+                    <td class="text-center">@mdo</td>
+                    <td class="text-center">@mdo</td>
+                    <td class="text-center">
+                        <a href="{% url 'delete_stock' stock_id=stock.id %}">
+                            <span aria-hidden="true">Delete</span>
+                        </a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {#        <ul class="navbar-nav">#}
+        {#            {% for stock in stocks %}#}
+        {#                <li class="mb-1">#}
+        {#                    {{ stock|upper }}#}
+        {#                    <a href="{% url 'delete_stock' stock_id=stock.id %}">#}
+        {#                        <span aria-hidden="true">&times;</span>#}
+        {#                    </a>#}
+        {#                </li>#}
+        {#            {% endfor %}#}
+        {#        </ul>#}
+    </div>
+{% endblock %}

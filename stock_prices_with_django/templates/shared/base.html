@@ -21,7 +21,25 @@
 
 <body>
 {% include 'shared/navbar.html' %}
+
+
+{#<div id="message-box" class="text-center mb-3 mt-4">#}
+{#    {% if messages %}#}
+{#        {% for message in messages %}#}
+{#            <h5>{{ message }}</h5>#}
+{#        {% endfor %}#}
+{#    {% endif %}#}
+{#</div>#}
 <div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-dark text-center mt-2 mb-1 " role="alert">
+                <h6>{{ message }}</h6>
+                {#                <button class="close" data-dismiss="alert"><small><sup>x</sup></small></button>#}
+            </div>
+
+        {% endfor %}
+    {% endif %}
     <br>
     {% block content %}
 
